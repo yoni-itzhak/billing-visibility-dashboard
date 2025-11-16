@@ -1,39 +1,22 @@
 import { ConsumptionPeriod } from '../types';
-import { customerSuggestions, orgIdSuggestions } from '../data/mockData';
+import { orgIdSuggestions } from '../data/mockData';
 import Dropdown from './Dropdown';
 
 interface ControlsProps {
-  customerName: string;
   orgId: string;
   period: ConsumptionPeriod;
-  onCustomerNameChange: (value: string) => void;
   onOrgIdChange: (value: string) => void;
   onPeriodChange: (value: ConsumptionPeriod) => void;
 }
 
 export default function Controls({
-  customerName,
   orgId,
   period,
-  onCustomerNameChange,
   onOrgIdChange,
   onPeriodChange,
 }: ControlsProps) {
   return (
     <div className="flex flex-wrap gap-5 mb-8 items-end">
-      <div className="flex flex-col gap-2">
-        <label htmlFor="customerName" className="text-sm font-medium text-gray-600">
-          Customer Name
-        </label>
-        <Dropdown
-          id="customerName"
-          value={customerName}
-          suggestions={customerSuggestions}
-          placeholder="Search customer..."
-          onChange={onCustomerNameChange}
-        />
-      </div>
-
       <div className="flex flex-col gap-2">
         <label htmlFor="orgId" className="text-sm font-medium text-gray-600">
           Organization ID
