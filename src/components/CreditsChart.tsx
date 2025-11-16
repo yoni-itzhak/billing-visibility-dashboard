@@ -50,8 +50,8 @@ export default function CreditsChart({ data, onDateClick }: CreditsChartProps) {
           text: 'Credits Consumed Per Day',
         },
         ticks: {
-          callback: function(value: unknown) {
-            return typeof value === 'number' ? value.toLocaleString() : value;
+          callback: function(value: unknown): string | number | string[] | number[] | null | undefined {
+            return typeof value === 'number' ? value.toLocaleString() : (value as string | number | string[] | number[] | null | undefined);
           },
         },
       },
@@ -73,7 +73,7 @@ export default function CreditsChart({ data, onDateClick }: CreditsChartProps) {
         },
       },
     },
-    onClick: (event: any, elements: any[]) => {
+    onClick: (_event: any, elements: any[]) => {
       if (elements && elements.length > 0) {
         const index = elements[0].index;
         const date = data.dates[index];

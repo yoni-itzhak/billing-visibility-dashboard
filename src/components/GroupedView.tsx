@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MeterType, FileDetailsByDate } from '../types';
+import { MeterType } from '../types';
 
 interface GroupedViewProps {
   filesByMeter: { [key in MeterType]?: any[] };

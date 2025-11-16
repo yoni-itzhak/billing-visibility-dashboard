@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ConsumptionPeriod, FileDetailsByDate, MeterType, FlatTableRow, ActionType, ConnectorType, UpdateReason } from '../types';
+import { ConsumptionPeriod, FileDetailsByDate, MeterType, FlatTableRow, ActionType, ConnectorType, UpdateReason, FileDetail } from '../types';
 import { generateProcessingId, parseTimeForGrouping } from '../utils/dataGenerator';
 import FlatView from './FlatView';
 import GroupedView from './GroupedView';
@@ -58,7 +58,7 @@ export default function FileDetails({
 
     // Generate File Processing IDs - files ingested together in the same flow share the same ID
     let ingestionIdCounter = 0;
-    const ingestionBatches: Array<{ id: string; startTime: string; files: any[] }> = [];
+    const ingestionBatches: Array<{ id: string; startTime: string; files: FileDetail[] }> = [];
 
     const sortedPipelineFiles = [...pipelineFiles].sort((a, b) => {
       const timeA = parseTimeForGrouping(a.updateTime);
@@ -71,7 +71,7 @@ export default function FileDetails({
 
     sortedPipelineFiles.forEach((file) => {
       const fileTime = parseTimeForGrouping(file.updateTime);
-      let assignedBatch = null;
+      let assignedBatch: { id: string; startTime: string; files: FileDetail[] } | null = null;
       for (let batch of ingestionBatches) {
         const batchTime = parseTimeForGrouping(batch.startTime);
         if (batchTime.dateKey === fileTime.dateKey &&
@@ -104,8 +104,8 @@ export default function FileDetails({
     ingestionBatches.forEach((batch) => {
       batch.files.forEach((file) => {
         const sizeMB = parseFloat(file.size) || 0;
-        const fileNameHash = file.fileName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-        const connectorType = file.connectorType || connectorTypes[fileNameHash % connectorTypes.length];
+        const fileNameHash = file.fileName.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+        const connectorType: ConnectorType = file.connectorType || connectorTypes[fileNameHash % connectorTypes.length];
         const connectorName = file.connectorName || connectorNames[connectorType];
         const processingId = batch.id;
 
@@ -135,8 +135,8 @@ export default function FileDetails({
     unstructuredFiles.forEach((file) => {
       const sizeMB = parseFloat(file.size) || 0;
       const credits = sizeMB * 60;
-      const fileNameHash = file.fileName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-      const connectorType = file.connectorType || connectorTypes[fileNameHash % connectorTypes.length];
+      const fileNameHash = file.fileName.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+      const connectorType: ConnectorType = file.connectorType || connectorTypes[fileNameHash % connectorTypes.length];
       const connectorName = file.connectorName || connectorNames[connectorType];
 
       let ingestionId: string;

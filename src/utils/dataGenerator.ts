@@ -1,4 +1,4 @@
-import { ConsumptionPeriod, ConsumptionData, FileDetailsByDate, MeterType } from '../types';
+import { ConsumptionPeriod, ConsumptionData, FileDetailsByDate } from '../types';
 import { mockFileDetails } from '../data/mockData';
 
 export function generateMockData(period: ConsumptionPeriod): ConsumptionData {
